@@ -44,6 +44,10 @@ public class BallScript : MonoBehaviour
         {
             CameraShake.isHit = true;
         }
+        else if(other.gameObject.tag == "Wall")
+        {
+            other.gameObject.GetComponent<AudioSource>().Play();
+        }
     }
 
     public void StartBall()

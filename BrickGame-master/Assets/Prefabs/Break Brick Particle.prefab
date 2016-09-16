@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199000012735583604}
   m_Layer: 0
   m_Name: Break Brick Particle
-  m_TagString: Untagged
+  m_TagString: Particle brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

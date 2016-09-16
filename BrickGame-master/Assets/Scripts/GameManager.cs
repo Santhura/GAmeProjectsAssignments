@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     private GameObject[] blocks;
 
     public GameObject youWonOrLostText;
+    GameObject[] allParticles;
 
     public enum GameState
     {
@@ -26,11 +28,14 @@ public class GameManager : MonoBehaviour
     Text statusText;
 
     public static AudioSource audio;
+    private AudioSource win, lose;
 
     // Use this for initialization
     void Start()
     {
         audio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        win = GameObject.Find("Win Sound effect").GetComponent<AudioSource>();
+        lose = GameObject.Find("DeadSound effect").GetComponent<AudioSource>();
         blocks = GameObject.FindGameObjectsWithTag("Block");
         Ball = GameObject.Find("Ball").GetComponent<BallScript>();
         statusText = GameObject.Find("Status").GetComponent<Text>();
@@ -61,23 +66,23 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 break;
             case GameState.Won:
-                Time.timeScale = 0;
+                Ball.StopBall();
                 youWonOrLostText.SetActive(true);
                 youWonOrLostText.GetComponent<Text>().text = "You won!! \nPress Space to play again!!";
                 if (InputTaken())
                 {
-                    Time.timeScale = 1;
+                    RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
                     Restart();
                     Ball.StartBall();
                     BlocksAlive = blocks.Length;
                     CurrentGameState = GameState.Playing;
                 }
-                
                 break;
             case GameState.LostALife:
                 if (InputTaken())
                 {
+                    RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
                     Ball.StartBall();
                     CurrentGameState = GameState.Playing;
@@ -88,6 +93,7 @@ public class GameManager : MonoBehaviour
                 youWonOrLostText.GetComponent<Text>().text = "You Lost!! \nPress Space to play again!!";
                 if (InputTaken())
                 {
+                    RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
                     Restart();
                     Ball.StartBall();
@@ -103,6 +109,15 @@ public class GameManager : MonoBehaviour
             CurrentGameState = GameState.Won;
         }
 
+    }
+
+    private void RemoveAllParticles()
+    {
+        allParticles = GameObject.FindGameObjectsWithTag("Particle brick");
+        for (int i = 0; i < allParticles.Length; i++)
+        {
+            Destroy(allParticles[i]);
+        }
     }
 
     private void Restart()
@@ -125,6 +140,7 @@ public class GameManager : MonoBehaviour
         if(Lives == 0)
         {
             CurrentGameState = GameState.LostAllLives;
+            lose.Play();
         }
         else
         {
