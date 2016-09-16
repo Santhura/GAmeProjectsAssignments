@@ -190,3 +190,5 @@ MonoBehaviour:
   LeftBlockTransform: {fileID: 0}
   RightBLockTransform: {fileID: 0}
   speed: 10
+  particlePaddle: {fileID: 1000012491965646, guid: 0c4c083b1d10f62479f1eadc9d66b834,
+    type: 2}

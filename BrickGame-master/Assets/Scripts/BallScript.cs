@@ -43,6 +43,8 @@ public class BallScript : MonoBehaviour
         if (other.gameObject.tag == "Block")
         {
             CameraShake.isHit = true;
+            GetComponent<MeshRenderer>().material.color = other.gameObject.GetComponent<MeshRenderer>().material.color;
+            GetComponent<TrailRenderer>().material.color = other.gameObject.GetComponent<MeshRenderer>().material.color;
         }
         else if(other.gameObject.tag == "Wall")
         {

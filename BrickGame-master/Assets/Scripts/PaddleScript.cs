@@ -7,6 +7,7 @@ public class PaddleScript : MonoBehaviour
     public float speed = 2;
 
     private AudioSource audio;
+    public GameObject particlePaddle;
     // Use this for initialization
     void Start()
     {
@@ -44,6 +45,7 @@ public class PaddleScript : MonoBehaviour
         if(other.gameObject.tag == "Ball")
         {
             audio.Play();
+            Instantiate(particlePaddle, transform.position, Quaternion.identity);
         }
     }
      
