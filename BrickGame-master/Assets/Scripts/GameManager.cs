@@ -25,9 +25,12 @@ public class GameManager : MonoBehaviour
     }
     Text statusText;
 
+    public static AudioSource audio;
+
     // Use this for initialization
     void Start()
     {
+        audio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         blocks = GameObject.FindGameObjectsWithTag("Block");
         Ball = GameObject.Find("Ball").GetComponent<BallScript>();
         statusText = GameObject.Find("Status").GetComponent<Text>();
@@ -44,12 +47,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        statusText.text = string.Format("Lives: {0}  Score: {1}", Lives, Score);
+
         switch (CurrentGameState)
         {
             case GameState.Start:
                 if (InputTaken())
                 {
-                    statusText.text = string.Format("Lives: {0}  Score: {1}", Lives, Score);
                     CurrentGameState = GameState.Playing;
                     Ball.StartBall();
                 }
@@ -67,7 +71,6 @@ public class GameManager : MonoBehaviour
                     Restart();
                     Ball.StartBall();
                     BlocksAlive = blocks.Length;
-                    statusText.text = string.Format("Lives: {0}  Score: {1}", Lives, Score);
                     CurrentGameState = GameState.Playing;
                 }
                 
@@ -77,7 +80,6 @@ public class GameManager : MonoBehaviour
                 {
                     youWonOrLostText.SetActive(false);
                     Ball.StartBall();
-                    statusText.text = string.Format("Lives: {0}  Score: {1}", Lives, Score);
                     CurrentGameState = GameState.Playing;
                 }
                 break;
@@ -90,7 +92,6 @@ public class GameManager : MonoBehaviour
                     Restart();
                     Ball.StartBall();
                     BlocksAlive = blocks.Length;
-                    statusText.text = string.Format("Lives: {0}  Score: {1}", Lives, Score);
                     CurrentGameState = GameState.Playing;
                 }
                 break;
@@ -123,12 +124,10 @@ public class GameManager : MonoBehaviour
 
         if(Lives == 0)
         {
-           // statusText.text = "Lost all lives. Tap to play again";
             CurrentGameState = GameState.LostAllLives;
         }
         else
         {
-            // statusText.text = "Lost a life. Tap to continue";
             youWonOrLostText.SetActive(true);
             youWonOrLostText.GetComponent<Text>().text = "Lost a life. Press Space to continue";
             CurrentGameState = GameState.LostALife;

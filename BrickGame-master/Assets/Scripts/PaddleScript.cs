@@ -6,10 +6,11 @@ public class PaddleScript : MonoBehaviour
     public Transform LeftBlockTransform, RightBLockTransform;
     public float speed = 2;
 
+    private AudioSource audio;
     // Use this for initialization
     void Start()
     {
-
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,6 +39,12 @@ public class PaddleScript : MonoBehaviour
         transform.position = new Vector3(currentX, transform.position.y, transform.position.z);
     }
 
-
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.tag == "Ball")
+        {
+            audio.Play();
+        }
+    }
      
 }
