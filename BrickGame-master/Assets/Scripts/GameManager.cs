@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public GameObject youWonOrLostText;
     GameObject[] allParticles;
 
+    public BoxCollider2D victoryBox;
+
     public enum GameState
     {
         Start,
@@ -27,8 +29,9 @@ public class GameManager : MonoBehaviour
     }
     Text statusText;
 
-    public static AudioSource audio;
-    private AudioSource win, lose;
+    public static AudioSource audio, win;
+    private AudioSource lose, backgroundAudio;
+    public AudioClip winSound;
 
     // Use this for initialization
     void Start()
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour
         audio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         win = GameObject.Find("Win Sound effect").GetComponent<AudioSource>();
         lose = GameObject.Find("DeadSound effect").GetComponent<AudioSource>();
+        backgroundAudio = GameObject.Find("Background music").GetComponent<AudioSource>();
         blocks = GameObject.FindGameObjectsWithTag("Block");
         Ball = GameObject.Find("Ball").GetComponent<BallScript>();
         statusText = GameObject.Find("Status").GetComponent<Text>();
@@ -71,8 +75,10 @@ public class GameManager : MonoBehaviour
                 youWonOrLostText.GetComponent<Text>().text = "You won!! \nPress Space to play again!!";
                 if (InputTaken())
                 {
+                    backgroundAudio.UnPause();
                     RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
+                    victoryBox.enabled = false;
                     Restart();
                     Ball.StartBall();
                     BlocksAlive = blocks.Length;
@@ -93,6 +99,7 @@ public class GameManager : MonoBehaviour
                 youWonOrLostText.GetComponent<Text>().text = "You Lost!! \nPress Space to play again!!";
                 if (InputTaken())
                 {
+                    backgroundAudio.UnPause();
                     RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
                     Restart();
@@ -107,6 +114,8 @@ public class GameManager : MonoBehaviour
         if (BlocksAlive <= 0)
         {
             CurrentGameState = GameState.Won;
+            backgroundAudio.Pause();
+            victoryBox.enabled = true;
         }
 
     }
@@ -139,6 +148,7 @@ public class GameManager : MonoBehaviour
 
         if(Lives == 0)
         {
+            backgroundAudio.Pause();
             CurrentGameState = GameState.LostAllLives;
             lose.Play();
         }
@@ -151,5 +161,7 @@ public class GameManager : MonoBehaviour
         Ball.StopBall();
     }
 
-   
+    
+
+
 }

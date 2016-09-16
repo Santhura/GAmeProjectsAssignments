@@ -50,6 +50,14 @@ public class BallScript : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Victory")
+        {
+            GameManager.win.Play();
+        }
+    }
+
     public void StartBall()
     {
         transform.position = InitialLocation;
