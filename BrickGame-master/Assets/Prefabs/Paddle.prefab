@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114000010256554756}
   - component: {fileID: 61000011332242160}
   - component: {fileID: 82000013592966424}
+  - component: {fileID: 50000012456612248}
   m_Layer: 0
   m_Name: Paddle
   m_TagString: Untagged
@@ -82,6 +83,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012542679772}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!50 &50000012456612248
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012542679772}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
 --- !u!61 &61000011332242160
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -189,6 +210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LeftBlockTransform: {fileID: 0}
   RightBLockTransform: {fileID: 0}
-  speed: 10
+  speed: 15
   particlePaddle: {fileID: 1000012491965646, guid: 0c4c083b1d10f62479f1eadc9d66b834,
+    type: 2}
+  bulletPrefab: {fileID: 1000013351781556, guid: e3aa8f83d1836744f92b5ab9f2b9dc9b,
     type: 2}

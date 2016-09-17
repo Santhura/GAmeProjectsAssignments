@@ -6,10 +6,11 @@ public class BallScript : MonoBehaviour
 
     public float SpeedY = 7;
     private Vector2 InitialLocation;
-
+    public int ballNumber;
     // Use this for initialization
     void Start()
     {
+        ballNumber = 0;
         InitialLocation = transform.position;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }

@@ -12,6 +12,7 @@ TagManager:
   - Block
   - Particle brick
   - Wall
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Vehicles
   - Characters
   - Floor
-  - 
-  - 
+  - Bullet
+  - Ball
   - 
   - 
   - 

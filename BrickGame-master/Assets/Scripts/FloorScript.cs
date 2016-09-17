@@ -8,6 +8,6 @@ public class FloorScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ball")
-            gameManager.DecreaseLives();
+            gameManager.DecreaseLives(col.gameObject.GetComponent<BallScript>().ballNumber);
     }
 }

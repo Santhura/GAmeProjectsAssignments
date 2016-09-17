@@ -97,6 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brickParticle: {fileID: 1000011025981432, guid: ac8f0ce6058c80c469203e52d3300ad0,
     type: 2}
+  powerUp: {fileID: 1000010038894466, guid: 00e78367eebc416429200dafe9d3303e, type: 2}
+  isAPowerUp: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -33,8 +33,9 @@ public class GameManager : MonoBehaviour
     private AudioSource lose, backgroundAudio;
     public AudioClip winSound;
 
-    // Use this for initialization
-    void Start()
+    private GameObject[] amountOfBalls;
+
+    void Awake()
     {
         audio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         win = GameObject.Find("Win Sound effect").GetComponent<AudioSource>();
@@ -44,6 +45,12 @@ public class GameManager : MonoBehaviour
         Ball = GameObject.Find("Ball").GetComponent<BallScript>();
         statusText = GameObject.Find("Status").GetComponent<Text>();
         BlocksAlive = blocks.Length;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        
     }
 
 
@@ -64,13 +71,16 @@ public class GameManager : MonoBehaviour
                 if (InputTaken())
                 {
                     CurrentGameState = GameState.Playing;
-                    Ball.StartBall();
+                    ResetBalls();
                 }
                 break;
             case GameState.Playing:
                 break;
             case GameState.Won:
-                Ball.StopBall();
+                for (int i = 0; i < amountOfBalls.Length; i++)
+                {
+                    amountOfBalls[i].GetComponent<BallScript>().StopBall();
+                }
                 youWonOrLostText.SetActive(true);
                 youWonOrLostText.GetComponent<Text>().text = "You won!! \nPress Space to play again!!";
                 if (InputTaken())
@@ -80,8 +90,10 @@ public class GameManager : MonoBehaviour
                     youWonOrLostText.SetActive(false);
                     victoryBox.enabled = false;
                     Restart();
-                    Ball.StartBall();
+                    ResetBalls();
+                    //Ball.StartBall();
                     BlocksAlive = blocks.Length;
+                    PaddleScript.hasPowerUp = false;
                     CurrentGameState = GameState.Playing;
                 }
                 break;
@@ -90,7 +102,9 @@ public class GameManager : MonoBehaviour
                 {
                     RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
-                    Ball.StartBall();
+                    ResetBalls();
+                    // Ball.StartBall();
+
                     CurrentGameState = GameState.Playing;
                 }
                 break;
@@ -103,8 +117,10 @@ public class GameManager : MonoBehaviour
                     RemoveAllParticles();
                     youWonOrLostText.SetActive(false);
                     Restart();
-                    Ball.StartBall();
+                    ResetBalls();
+                    //Ball.StartBall();
                     BlocksAlive = blocks.Length;
+                    PaddleScript.hasPowerUp = false;
                     CurrentGameState = GameState.Playing;
                 }
                 break;
@@ -118,6 +134,18 @@ public class GameManager : MonoBehaviour
             victoryBox.enabled = true;
         }
 
+    }
+
+    private void ResetBalls()
+    {
+        amountOfBalls = GameObject.FindGameObjectsWithTag("Ball");
+        
+        for (int i = 0; i < amountOfBalls.Length; i++)
+        {
+            amountOfBalls[i].GetComponent<BallScript>().StartBall();
+        }
+        if (amountOfBalls.Length > 1)
+            Destroy(amountOfBalls[1]);
     }
 
     private void RemoveAllParticles()
@@ -141,10 +169,13 @@ public class GameManager : MonoBehaviour
     }
 
   
-    public void DecreaseLives()
+    public void DecreaseLives(int ballNumber)
     {
-        if (Lives > 0)
+        amountOfBalls = GameObject.FindGameObjectsWithTag("Ball");
+        if (Lives > 0 && amountOfBalls.Length <= 1)
             Lives--;
+        else
+            Destroy(amountOfBalls[ballNumber]);
 
         if(Lives == 0)
         {
@@ -158,10 +189,9 @@ public class GameManager : MonoBehaviour
             youWonOrLostText.GetComponent<Text>().text = "Lost a life. Press Space to continue";
             CurrentGameState = GameState.LostALife;
         }
-        Ball.StopBall();
+        for (int i = 0; i < amountOfBalls.Length; i++)
+        {
+            amountOfBalls[i].GetComponent<BallScript>().StopBall();
+        }
     }
-
-    
-
-
 }

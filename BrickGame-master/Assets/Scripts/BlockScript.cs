@@ -4,6 +4,14 @@ using System.Collections;
 public class BlockScript : MonoBehaviour {
 
     public GameObject brickParticle;
+    public GameObject powerUp;
+    public bool isAPowerUp;
+
+    void Awake()
+    {
+        isAPowerUp = false;
+    }
+
 	// Use this for initialization
 	void Start ()
     {
@@ -22,6 +30,10 @@ public class BlockScript : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if(isAPowerUp)
+        {
+            Instantiate(powerUp, transform.position, Quaternion.identity);
+        }
         GameObject particle = Instantiate(brickParticle, gameObject.transform.position, Quaternion.identity) as GameObject;
         particle.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
         gameObject.SetActive(false);
