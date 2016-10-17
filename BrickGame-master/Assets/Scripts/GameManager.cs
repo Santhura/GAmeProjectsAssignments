@@ -173,22 +173,34 @@ public class GameManager : MonoBehaviour
     {
         amountOfBalls = GameObject.FindGameObjectsWithTag("Ball");
         if (Lives > 0 && amountOfBalls.Length <= 1)
+        {
             Lives--;
+            StopBall();
+        }
         else
+        {
             Destroy(amountOfBalls[ballNumber]);
+        }
 
         if(Lives == 0)
         {
             backgroundAudio.Pause();
             CurrentGameState = GameState.LostAllLives;
+            StopBall();
             lose.Play();
         }
         else
         {
             youWonOrLostText.SetActive(true);
+            StopBall();
             youWonOrLostText.GetComponent<Text>().text = "Lost a life. Press Space to continue";
             CurrentGameState = GameState.LostALife;
         }
+        
+    }
+
+    private void StopBall()
+    {
         for (int i = 0; i < amountOfBalls.Length; i++)
         {
             amountOfBalls[i].GetComponent<BallScript>().StopBall();

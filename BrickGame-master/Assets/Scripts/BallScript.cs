@@ -63,6 +63,8 @@ public class BallScript : MonoBehaviour
 
     public void StartBall()
     {
+        InitialLocation = new Vector3(-0.1f, -2.8f, 0);
+        
         transform.position = InitialLocation;
         GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-3.0f, 3.0f), SpeedY);
     }

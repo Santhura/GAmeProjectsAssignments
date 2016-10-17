@@ -15,7 +15,7 @@ public class Upgrades : MonoBehaviour {
     void Start () {
         secondBallSpawned = false;
         totalBlocks = GameManager.BlocksAlive;
-        percentage = 50;
+        percentage = Random.Range(20,100);
         blocks = GameObject.FindGameObjectsWithTag("Block");
         RandomUpgradeBlock();
 	}
@@ -24,7 +24,7 @@ public class Upgrades : MonoBehaviour {
 	void Update () {
 		if(GameManager.BlocksAlive < (totalBlocks / 100) * percentage && !secondBallSpawned)
         {
-            GameObject newBall = Instantiate(UpgradeBallPrefab, new Vector3(Random.Range(-2.4f, 2.4f), -2.8f, 0), Quaternion.identity) as GameObject;
+            GameObject newBall = Instantiate(UpgradeBallPrefab, GameObject.Find("Ball").transform.position, Quaternion.identity) as GameObject;
             newBall.GetComponent<BallScript>().ballNumber = 1;
             secondBallSpawned = true;
         }

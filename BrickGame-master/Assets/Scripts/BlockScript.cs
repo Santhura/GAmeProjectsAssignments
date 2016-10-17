@@ -35,7 +35,7 @@ public class BlockScript : MonoBehaviour {
             Instantiate(powerUp, transform.position, Quaternion.identity);
         }
         GameObject particle = Instantiate(brickParticle, gameObject.transform.position, Quaternion.identity) as GameObject;
-        particle.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+        particle.GetComponent<ParticleSystem>().startColor = GetComponent<Renderer>().material.color;
         gameObject.SetActive(false);
         GameManager.audio.Play();
         GameManager.Score += 20;
