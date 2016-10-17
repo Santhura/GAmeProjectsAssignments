@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     private bool InputTaken()
     {
-        return Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Space);
+        return Input.touchCount > 0 || Input.GetMouseButtonDown(0);
     }
 
 
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
                     amountOfBalls[i].GetComponent<BallScript>().StopBall();
                 }
                 youWonOrLostText.SetActive(true);
-                youWonOrLostText.GetComponent<Text>().text = "You won!! \nPress Space to play again!!";
+                youWonOrLostText.GetComponent<Text>().text = "You won!! \nClick mouse to play again!!";
                 if (InputTaken())
                 {
                     backgroundAudio.UnPause();
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.LostAllLives:
                 youWonOrLostText.SetActive(true);
-                youWonOrLostText.GetComponent<Text>().text = "You Lost!! \nPress Space to play again!!";
+                youWonOrLostText.GetComponent<Text>().text = "You Lost!! \nClick mouse to play again!!";
                 if (InputTaken())
                 {
                     backgroundAudio.UnPause();
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
         {
             youWonOrLostText.SetActive(true);
             StopBall();
-            youWonOrLostText.GetComponent<Text>().text = "Lost a life. Press Space to continue";
+            youWonOrLostText.GetComponent<Text>().text = "Lost a life.\nClick mouse to continue";
             CurrentGameState = GameState.LostALife;
         }
         

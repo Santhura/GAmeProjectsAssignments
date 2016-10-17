@@ -13,6 +13,7 @@ public class PaddleScript : MonoBehaviour
     public static bool hasPowerUp;
     private float shotCoolDown = 0f;
     public GameObject bulletPrefab;
+    private Vector3 targetPos;
 
     // Use this for initialization
     void Start()
@@ -25,41 +26,30 @@ public class PaddleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float input;
+        float distance = transform.position.z - Camera.main.transform.position.z;
+        targetPos = new Vector3(Input.mousePosition.x, 0, distance);
+        targetPos = Camera.main.ScreenToWorldPoint(targetPos);
 
-        if (Input.touchCount > 0)//touch input
-        {
-            input = Input.touches[0].position.x >= Screen.width / 2 ? 1f : -1f;
-        }
-        else//keyboard input
-        {
-            input = Input.GetAxis("Horizontal");
-        }
+        Vector3 followXonly = new Vector3(targetPos.x, transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, followXonly, speed * Time.deltaTime);
 
-        if (input > 0.1f)
-        {
-            rb.velocity = new Vector2(input * speed, 0);
-        }
-        else if (input < 0.1f)
-        {
-            rb.velocity = new Vector2(input * speed, 0);
-        }
         float currentX = Mathf.Clamp(transform.position.x, LeftBlockTransform.position.x + 1, RightBLockTransform.position.x - 1);
         transform.position = new Vector3(currentX, transform.position.y, transform.position.z);
 
-        if(hasPowerUp)
-        {
-            if(Input.GetKey(KeyCode.X))
-            {
-                shotCoolDown -= Time.deltaTime;
+       
+          if(hasPowerUp)
+          {
+              if(Input.GetKey(KeyCode.X))
+              {
+                  shotCoolDown -= Time.deltaTime;
 
-                if (shotCoolDown <= 0)
-                {
-                    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                    shotCoolDown = .8f;
-                }
-            }
-        }
+                  if (shotCoolDown <= 0)
+                  {
+                      Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                      shotCoolDown = .8f;
+                  }
+              }
+          }
     }
 
     void OnCollisionEnter2D(Collision2D other)
