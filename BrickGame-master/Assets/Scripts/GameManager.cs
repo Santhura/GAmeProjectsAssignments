@@ -50,13 +50,15 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+        youWonOrLostText.SetActive(true);
+        youWonOrLostText.GetComponent<Text>().text = "Click mouse to play";
     }
 
 
     private bool InputTaken()
     {
         return Input.touchCount > 0 || Input.GetMouseButtonDown(0);
+        
     }
 
 
@@ -75,6 +77,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameState.Playing:
+                youWonOrLostText.SetActive(false);
                 break;
             case GameState.Won:
                 for (int i = 0; i < amountOfBalls.Length; i++)
